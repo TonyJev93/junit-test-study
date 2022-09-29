@@ -6,8 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.assertj.core.api.Assertions.*;
 
 class StringTest {
 
@@ -81,6 +80,13 @@ class StringTest {
             assertThat(result).isEqualTo(expected);
         }
 
+        /**
+         * 자주 발생하는 Exception 에 대한 별도 메서드
+         * - assertThatIllegalArgumentException()
+         * - assertThatIllegalStateException()
+         * - assertThatIOException()
+         * - assertThatNullPointerException()
+         */
         @Test
         @DisplayName("String의 charAt() 메소드를 활용해 특정 위치의 문자를 가져올 때 위치 값을 벗어나면 StringIndexOutOfBoundsException이 발생하는 부분에 대한 학습 테스트를 구현한다.")
         void require3_2() {
@@ -97,11 +103,21 @@ class StringTest {
                     .isInstanceOfAny(expectedExceptionType)
                     .hasMessageContaining(String.format("String index out of range: " + minIndexMinusOne));
 
+            assertThatExceptionOfType(expectedExceptionType)
+                    .isThrownBy(() -> {
+                        target.charAt(minIndexMinusOne);
+                    }).withMessageMatching("String index out of range: -\\d+");
+
             assertThatThrownBy(() -> {
                 target.charAt(maxIndexPlusOne);
             }).as("최대 Index 보다 1 큰 경우")
                     .isInstanceOfAny(expectedExceptionType)
                     .hasMessageContaining("String index out of range: " + maxIndexPlusOne);
+
+            assertThatExceptionOfType(expectedExceptionType)
+                    .isThrownBy(() -> {
+                        target.charAt(maxIndexPlusOne);
+                    }).withMessageMatching("String index out of range: \\d+");
         }
     }
 }
