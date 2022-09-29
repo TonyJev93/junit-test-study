@@ -38,5 +38,23 @@ class StringTest {
         }
     }
 
+    @Nested
+    @DisplayName("요구사항 2")
+    class Require2 {
+        @Test
+        @DisplayName("\"(1,2)\" 값이 주어졌을 때 String의 substring() 메소드를 활용해 () 을 제거하고 \"1,2\"를 반환 하도록 구현한다.")
+        void require2_1() {
+            // given
+            var target = "(1,2)";
+            var expected = "1,2";
+
+            // when
+            var result = target.substring(1, target.length() - 1);
+
+
+            //then
+            assertThat(result).isEqualTo(expected);
+        }
+    }
 
 }
